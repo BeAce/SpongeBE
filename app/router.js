@@ -8,4 +8,6 @@ module.exports = app => {
   router.get('/v1/articles', controller.articles.index);
   router.get('/v1/articles/:id', controller.articles.articleById);
   router.post('/v1/article', controller.articles.postArticle);
+  router.post('/v1/article_update', controller.articles.updateArticle);
+  router.post('/v1/article_delete', controller.articles.deleteArticle);
 };
