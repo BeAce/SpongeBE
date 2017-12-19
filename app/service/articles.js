@@ -3,8 +3,16 @@
 const Service = require('egg').Service;
 
 class ArticlesService extends Service {
-  async findAll() {
-    const articles = await this.ctx.model.Articles.find({});
+  async findAll(obj) {
+    const { size, start, order, key } = obj;
+    // date -1 new -> old 1 old -> new
+    console.log(obj);
+    const articles = await this.ctx.model.Articles.find({})
+      .where('title', { $regex: key, $options: '$i' })
+      .where('content', { $regex: key, $options: '$i' })
+      .sort({ date: order })
+      .skip((start - 1) * size)
+      .limit(size);
     return articles;
   }
 
@@ -23,7 +31,9 @@ class ArticlesService extends Service {
     // findByIdAndUpdate
     // If you set callback params, the querys doc will not return
     // set [options new: bool] - true to return the modified document rather than the original. defaults to false
-    const article = await this.ctx.model.Articles.findByIdAndUpdate(id, obj, { new: true });
+    const article = await this.ctx.model.Articles.findByIdAndUpdate(id, obj, {
+      new: true,
+    });
     return article;
   }
 

@@ -12,15 +12,35 @@ class HomeController extends Controller {
       date: { type: 'datetime' },
       author: { type: 'string' },
     };
-  }
-  // Find article list
-  async index() {
-    const ctx = this.ctx;
-    const data = await ctx.service.articles.findAll();
-    ctx.body = {
-      data,
-      code: 0,
+    this.validatePage = {
+      size: { type: 'number' },
+      start: { type: 'number' },
     };
+  }
+
+  // Find article list by page
+  async index() {
+    try {
+      const { size, start, order, key } = this.ctx.query;
+      const queryParams = {
+        size: Number(size),
+        start: Number(start),
+        order: Number(order) > 0 ? 1 : -1,
+        key,
+      };
+      this.ctx.validate(this.validatePage, queryParams);
+      const data = await this.ctx.service.articles.findAll(queryParams);
+      this.ctx.body = {
+        data,
+        code: 0,
+      };
+    } catch (error) {
+      console.log(error);
+      this.ctx.body = {
+        code: -1,
+        error: error.errors,
+      };
+    }
   }
 
   // Find article by id
@@ -47,7 +67,6 @@ class HomeController extends Controller {
       };
     }
   }
-
 
   // Post article
   async postArticle() {
