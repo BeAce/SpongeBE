@@ -9,7 +9,7 @@ class HomeController extends Controller {
       abstract: { type: 'string' },
       title: { type: 'string' },
       content: { type: 'string' },
-      date: { type: 'date' },
+      date: { type: 'datetime' },
       author: { type: 'string' },
     };
   }
