@@ -26,12 +26,13 @@ class HomeController extends Controller {
         size: Number(size),
         start: Number(start),
         order: Number(order) > 0 ? 1 : -1,
-        key,
+        key: key || '',
       };
       this.ctx.validate(this.validatePage, queryParams);
       const data = await this.ctx.service.articles.findAll(queryParams);
       this.ctx.body = {
-        data,
+        data: data.data,
+        totalNumber: data.totalNumber,
         code: 0,
       };
     } catch (error) {

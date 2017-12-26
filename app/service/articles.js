@@ -7,13 +7,15 @@ class ArticlesService extends Service {
     const { size, start, order, key } = obj;
     // date -1 new -> old 1 old -> new
     console.log(obj);
+    const totalNumber = await this.ctx.model.Articles.find({}).count();
+    console.log('总数', totalNumber);
     const articles = await this.ctx.model.Articles.find({})
       .where('title', { $regex: key, $options: '$i' })
       .where('content', { $regex: key, $options: '$i' })
       .sort({ date: order })
       .skip((start - 1) * size)
       .limit(size);
-    return articles;
+    return { data: articles, totalNumber };
   }
 
   async findOne(id) {
