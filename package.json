@@ -4,10 +4,13 @@
   "description": "BackEnd for Sponge",
   "private": true,
   "dependencies": {
+    "await-stream-ready": "^1.0.1",
     "egg": "^2.0.0",
     "egg-mongoose": "^2.1.1",
     "egg-scripts": "^2.1.0",
-    "egg-validate": "^1.0.0"
+    "egg-validate": "^1.0.0",
+    "formstream": "^1.1.0",
+    "stream-wormhole": "^1.0.3"
   },
   "devDependencies": {
     "autod": "^3.0.1",

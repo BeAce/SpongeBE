@@ -6,9 +6,7 @@ class ArticlesService extends Service {
   async findAll(obj) {
     const { size, start, order, key } = obj;
     // date -1 new -> old 1 old -> new
-    console.log(obj);
     const totalNumber = await this.ctx.model.Articles.find({}).count();
-    console.log('总数', totalNumber);
     const articles = await this.ctx.model.Articles.find({})
       .where('title', { $regex: key, $options: '$i' })
       .where('content', { $regex: key, $options: '$i' })
